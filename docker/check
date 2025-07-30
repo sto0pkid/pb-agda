@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -euo pipefail
+
+MODE="$1"
+CHECKFILE=""
+
+case "$MODE" in
+  proof)
+    CHECKFILE="Check.agda"
+    ;;
+  disproof)
+    CHECKFILE="CheckNeg.agda"
+    ;;
+  *)
+    echo "Usage: $0 [proof|disproof]"
+    exit 1
+    ;;
+esac
+
+exec agda --safe --cubical --no-exact-split --no-main $CHECKFILE
