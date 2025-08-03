@@ -13,11 +13,17 @@ It is designed to:
 ## 🔧 Project Structure
 
 ├── docker/
+
 │ ├── check-proof # Entrypoint script for checking a proof
+
 │ ├── check-disproof # Entrypoint script for checking a disproof
+
 │ ├── Check.agda # Imports Goal.agda + Proof.agda to validate proof
+
 │ └── CheckNeg.agda # Imports Goal.agda + Proof.agda to validate disproof
+
 ├── docker.nix # Builds the container image using Nix
+
 └── README.md # You're here
 
 ---
@@ -43,18 +49,18 @@ docker load < result
 Accepted proof:
 
 ```bash
-docker run --rm -v ./example/accepted:/work/Input agda-proof-checker proof
+docker run --rm -v ./example/accepted/Goal.agda:/input/goal:ro -v ./example/accepted/Proof.agda:/input/proof:ro agda-proof-checker proof
 echo $? # 0
 ```
 
 Rejected proof:
 ```bash
-docker run --rm -v ./example/rejected:/work/Input agda-proof-checker proof
+docker run --rm -v ./example/rejected/Goal.agda:/input/goal:ro -v ./example/rejected/Proof.agda:/input/proof:ro agda-proof-checker proof
 echo $? # 1
 ```
 
 Accepted disproof:
 ```bash
-docker run --rm -v ./example/disproof:/work/Input agda-proof-checker disproof
+docker run --rm -v ./example/disproof/Goal.agda:/input/goal:ro -v ./example/disproof/Proof.agda:/input/proof:ro agda-proof-checker disproof
 echo $? # 0
 ```

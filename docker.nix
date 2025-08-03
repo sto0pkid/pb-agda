@@ -29,7 +29,10 @@ let
   proofToolsLayer = pkgs.runCommand "proof-tools" {
     nativeBuildInputs = [ pkgs.coreutils ];
   } ''
+    mkdir -p $out/input
+    mkdir -p $out/output
     mkdir -p $out/work
+    mkdir -p $out/work/Input
     cp -r ${dockerSrc}/* $out/work/
     chmod +x $out/work/check
   '';
@@ -37,7 +40,13 @@ let
   dockerImage = pkgs.dockerTools.buildLayeredImage {
     name = "agda-proof-checker";
     tag = "latest";
-    contents = [ agdaLayer proofToolsLayer pkgs.bashInteractive pkgs.coreutils ];
+    contents = [
+      agdaLayer
+      proofToolsLayer
+      pkgs.bashInteractive
+      pkgs.coreutils
+      pkgs.jq
+    ];
 
     config = {
       Env = [
