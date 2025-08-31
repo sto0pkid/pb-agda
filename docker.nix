@@ -32,8 +32,8 @@ let
     mkdir -p $out/input
     mkdir -p $out/output
     mkdir -p $out/work
-    mkdir -p $out/work/Input
     cp -r ${dockerSrc}/* $out/work/
+    mkdir -p $out/work/Input
     chmod +x $out/work/check
   '';
 
